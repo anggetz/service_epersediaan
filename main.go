@@ -10,7 +10,9 @@ func hello(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/hello", hello)
+	http.HandleFunc("/v1/public-api/hello", hello)
+
+	fmt.Println("server listening")
 
 	http.ListenAndServe(":8090", nil)
 }
