@@ -8,6 +8,7 @@ go install github.com/swaggo/swag/cmd/swag@latest
 ```
 
 2. ensure you already register path of golang bin folder in yours environment path, ex: ${GOROOT}/bin
+
 try this commad in yours terminal before continue to next step
 
 ```
@@ -23,3 +24,7 @@ swag
 go run main.go
 
 ```
+
+## about project structure
+
+i am using DDD patterns for this project, 
