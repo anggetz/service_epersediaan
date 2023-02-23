@@ -1,18 +1,78 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"net/http"
+	"os"
+	"pvg/simada/service-epersediaan/docs"
+	"pvg/simada/service-epersediaan/domains/user"
+
+	// gin-swagger middleware
+
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func hello(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "hello bos")
-}
+// swagger embed files
+
+// @title           E-Persediaan API
+// @version         1.0
+// @description     This is a sample server celler server.
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name   API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      localhost:8089
+// @BasePath  /v1/public-api
+
+// @securitydefinitions.apikey  ApiKeyAuth
+// @in 		header
+// @name 	Authorization
+
+// @externalDocs.description  OpenAPI
+// @externalDocs.url          https://swagger.io/resources/open-api/
 
 func main() {
-	http.HandleFunc("/v1/public-api/hello", hello)
 
-	fmt.Println("server listening")
+	var configPath = flag.String("config", ".env.local", "please input config path")
 
-	http.ListenAndServe(":8090", nil)
+	flag.Parse()
+
+	godotenv.Load(*configPath)
+
+	fmt.Println("Configured", *configPath)
+
+	route := gin.New()
+
+	docs.SwaggerInfo.Host = os.Getenv("EPERSEDIAAN_SWAGGER_HOST")
+
+	v1 := route.Group("v1")
+	{
+		publicApi := v1.Group("public-api")
+		{
+			userApi := publicApi.Group("user")
+			{
+				user.NewUserRouter().RegisterHandler(userApi)
+			}
+
+			docApi := publicApi.Group("doc")
+			{
+				docApi.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+			}
+
+		}
+
+	}
+
+	fmt.Println("Server listening on port " + os.Getenv("EPERSEDIAAN_APP_PORT"))
+
+	route.Run(":" + os.Getenv("EPERSEDIAAN_APP_PORT"))
 }

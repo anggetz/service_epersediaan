@@ -1,0 +1,115 @@
+basePath: /v1/public-api
+definitions:
+  user.RequestToken:
+    properties:
+      password:
+        example: bdg230683
+        type: string
+      username:
+        example: NOVIRAHYANTI
+        type: string
+    type: object
+  user.ResponseToken:
+    properties:
+      token:
+        type: string
+    type: object
+  user.UserModel:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  util.HTTPError:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+host: localhost:8089
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: E-Persediaan API
+  version: "1.0"
+paths:
+  /user/data/get:
+    get:
+      consumes:
+      - application/json
+      description: get users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.UserModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: Users
+      tags:
+      - user
+  /user/token:
+    post:
+      consumes:
+      - application/json
+      description: get a token
+      parameters:
+      - description: Authorization Credential
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/user.RequestToken'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.ResponseToken'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      summary: Token
+      tags:
+      - auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
