@@ -22,8 +22,16 @@ swag
 
 ```
 go run main.go
-
 ```
+
+#swagger
+
+for generate swagger use this command below
+```
+swag init
+```
+
+note: every time you change the swaggo annotation please use swag init first, then you can run the service normally (go run main.go)
 
 ## about project structure
 
