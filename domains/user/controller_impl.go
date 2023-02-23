@@ -32,7 +32,6 @@ func NewUserController() UserController {
 // @Router       /user/data/get [get]
 func (u *UserControllerImpl) Get(ctx *gin.Context) {
 	// not impelement yet
-	ctx.JSON(http.StatusAccepted, UserModel{})
 }
 
 // Token   godoc

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"pvg/simada/service-epersediaan/docs"
+	"pvg/simada/service-epersediaan/domains/organisasi"
 	"pvg/simada/service-epersediaan/domains/user"
 
 	// gin-swagger middleware
@@ -61,6 +62,11 @@ func main() {
 			userApi := publicApi.Group("user")
 			{
 				user.NewUserRouter().RegisterHandler(userApi)
+			}
+
+			organisasiAPI := publicApi.Group("organisasi")
+			{
+				organisasi.NewUserRouter().RegisterHandler(organisasiAPI)
 			}
 
 			docApi := publicApi.Group("doc")
