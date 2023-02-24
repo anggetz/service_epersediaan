@@ -1,5 +1,30 @@
 basePath: /v1/public-api
 definitions:
+  organisasi.OrganisasiModel:
+    properties:
+      aktif:
+        type: integer
+      alamat:
+        type: string
+      id:
+        type: integer
+      jabatans:
+        type: string
+      kode:
+        type: string
+      level:
+        type: integer
+      nama:
+        type: string
+      organisasi:
+        items:
+          $ref: '#/definitions/organisasi.OrganisasiModel'
+        type: array
+      pid:
+        type: integer
+      setting:
+        type: integer
+    type: object
   user.RequestToken:
     properties:
       password:
@@ -16,7 +41,23 @@ definitions:
     type: object
   user.UserModel:
     properties:
+      aktif:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      jabatan:
+        type: integer
+      nip:
+        type: string
+      no_hp:
+        type: string
       password:
+        type: string
+      rike:
+        type: integer
+      tgl_lahir:
         type: string
       username:
         type: string
@@ -44,6 +85,35 @@ info:
   title: E-Persediaan API
   version: "1.0"
 paths:
+  /organisasi/data/get:
+    get:
+      consumes:
+      - application/json
+      description: get m_organisasi
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/organisasi.OrganisasiModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: Organisasi
+      tags:
+      - organisasi
   /user/data/get:
     get:
       consumes:
