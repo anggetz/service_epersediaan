@@ -8,10 +8,9 @@ type OrganisasiModel struct {
 	ALAMAT     string           `json:"alamat"`
 	AKTIF      int              `json:"aktif"`
 	KODE       string           `json:"kode"`
-	JABATANS   string           `json:"jabatans"`
+	LEVEL      string           `json:"level"`
 	SETTING    int              `json:"setting"`
 	ORGANISASI *OrganisasiModel `json:"organisasi" sql:"-" pg:"rel:has-one,fk:pid"`
-	// LEVEL      *Level           `json:"level"`
 }
 
 type Level struct {

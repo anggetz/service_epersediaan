@@ -10,6 +10,22 @@ func NewRepository() Repository {
 	return &RepositoryImpl{}
 }
 
+func (r *RepositoryImpl) GetOneOrganisasiById(id int) (*OrganisasiModel, error) {
+	dbUtil := util.NewDatabasePostgres()
+	dbUtil.Connect()
+
+	defer dbUtil.Close()
+
+	organisasi := OrganisasiModel{}
+
+	err := dbUtil.GetDB().Model(&organisasi).Where("id = ?", id).Select()
+	if err != nil {
+		return nil, err
+	}
+
+	return &organisasi, nil
+}
+
 func (r *RepositoryImpl) GetAllOrganisasi(page int, take int, offset int, search string) ([]OrganisasiModel, error) {
 	dbUtil := util.NewDatabasePostgres()
 	dbUtil.Connect()

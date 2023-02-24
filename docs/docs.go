@@ -42,6 +42,26 @@ const docTemplate = `{
                     "organisasi"
                 ],
                 "summary": "Organisasi",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "take",
+                        "name": "take",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "search",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -70,53 +90,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/data/get": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "get users",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "Users",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/user.UserModel"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/util.HTTPError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/util.HTTPError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/util.HTTPError"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/token": {
+        "/user/auth/token": {
             "post": {
                 "description": "get a token",
                 "consumes": [
@@ -167,6 +141,52 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/user/data/iam": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a user logged in info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "IAM",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.ResponseIAM"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -182,23 +202,17 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "jabatans": {
-                    "type": "string"
-                },
                 "kode": {
                     "type": "string"
                 },
                 "level": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "nama": {
                     "type": "string"
                 },
                 "organisasi": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/organisasi.OrganisasiModel"
-                    }
+                    "$ref": "#/definitions/organisasi.OrganisasiModel"
                 },
                 "pid": {
                     "type": "integer"
@@ -221,45 +235,21 @@ const docTemplate = `{
                 }
             }
         },
-        "user.ResponseToken": {
+        "user.ResponseIAM": {
             "type": "object",
             "properties": {
-                "token": {
+                "organisasi": {
+                    "$ref": "#/definitions/organisasi.OrganisasiModel"
+                },
+                "username": {
                     "type": "string"
                 }
             }
         },
-        "user.UserModel": {
+        "user.ResponseToken": {
             "type": "object",
             "properties": {
-                "aktif": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "jabatan": {
-                    "type": "integer"
-                },
-                "nip": {
-                    "type": "string"
-                },
-                "no_hp": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "rike": {
-                    "type": "integer"
-                },
-                "tgl_lahir": {
-                    "type": "string"
-                },
-                "username": {
+                "token": {
                     "type": "string"
                 }
             }

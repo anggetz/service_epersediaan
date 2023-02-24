@@ -15,11 +15,16 @@ func NewUserRouter() domains.Route {
 
 func (u *UserRouter) RegisterHandler(r *gin.RouterGroup) {
 
-	r.POST("/token", NewUserController().Token)
-
-	dataApi := r.Group("data").Use(networks.AuthJWTMiddleware())
+	authApi := r.Group("auth")
 	{
+		authApi.POST("/token", NewUserController().Token)
+	}
+
+	dataApi := r.Group("data")
+	{
+		dataApi.Use(networks.AuthJWTMiddleware())
 		dataApi.GET("/get", NewUserController().Get)
+		dataApi.POST("/iam", NewUserController().IAM)
 	}
 
 }

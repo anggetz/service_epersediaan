@@ -21,9 +21,11 @@ func NewOrganisasiController() OrganisasiController {
 // @Summary      Organisasi
 // @Description  get m_organisasi
 // @Tags         organisasi
-// @Accept       query
+// @Accept       json
 // @Produce      json
-// @Param        message	query	ParamPagination		false	"Pagination"
+// @Param        take	query	int			false	"take"
+// @Param        page	query	int			false	"page"
+// @Param        search	query	string		false	"search"
 // @Success      200  {object}  OrganisasiModel
 // @Failure      400  {object}  util.HTTPError
 // @Failure      404  {object}  util.HTTPError

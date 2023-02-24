@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"os"
 	"pvg/simada/service-epersediaan/util"
+
+	organisasiDomain "pvg/simada/service-epersediaan/domains/organisasi"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -21,31 +23,8 @@ func (u *UserControllerImpl) Insert(ctx *gin.Context) {
 	// not impelement yet
 }
 
-// Token   		 godoc
-// @Summary      Users
-// @Description  get users
-// @Tags         user
-// @Accept       json
-// @Produce      json
-// @Success      200  {object}  UserModel
-// @Failure      400  {object}  util.HTTPError
-// @Failure      404  {object}  util.HTTPError
-// @Failure      500  {object}  util.HTTPError
-// @Security 	 ApiKeyAuth
-// @Router       /user/data/get [get]
 func (u *UserControllerImpl) Get(ctx *gin.Context) {
-	UserModel, err := NewRepository().GetAllUser()
-	if err != nil {
-		if err == pg.ErrNoRows {
-			err = fmt.Errorf("error")
-		}
-		util.NewError(ctx, http.StatusBadRequest, err)
-		return
-	}
-
-	ctx.JSON(http.StatusOK, gin.H{
-		"data": UserModel,
-	})
+	// not implement yet
 }
 
 // Token   godoc
@@ -54,12 +33,13 @@ func (u *UserControllerImpl) Get(ctx *gin.Context) {
 // @Tags         auth
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  ResponseToken
+// @Success      200  {object}  ResponseIAM
 // @Failure      400  {object}  util.HTTPError
 // @Failure      404  {object}  util.HTTPError
 // @Failure      500  {object}  util.HTTPError
-// @Router       /user/iam [post]
-func (u *UserController) IAM(ctx *gin.Context) {
+// @Security 	 ApiKeyAuth
+// @Router       /user/data/iam [post]
+func (u *UserControllerImpl) IAM(ctx *gin.Context) {
 	username, err := util.GetUsername(ctx)
 
 	if err != nil {
@@ -68,6 +48,23 @@ func (u *UserController) IAM(ctx *gin.Context) {
 	}
 
 	user, err := NewRepository().GetByUsername(username)
+	if err != nil {
+		util.NewError(ctx, http.StatusBadRequest, err)
+		return
+	}
+
+	responseIAM := ResponseIAM{}
+
+	organisasi, err := organisasiDomain.NewRepository().GetOneOrganisasiById(user.PidOrganisasi)
+	if err != nil {
+		util.NewError(ctx, http.StatusBadRequest, err)
+		return
+	}
+
+	responseIAM.Username = user.USERNAME
+	responseIAM.Organisasi = *organisasi
+
+	ctx.JSON(http.StatusAccepted, responseIAM)
 
 }
 
@@ -82,7 +79,7 @@ func (u *UserController) IAM(ctx *gin.Context) {
 // @Failure      400  {object}  util.HTTPError
 // @Failure      404  {object}  util.HTTPError
 // @Failure      500  {object}  util.HTTPError
-// @Router       /user/token [post]
+// @Router       /user/auth/token [post]
 func (u *UserControllerImpl) Token(ctx *gin.Context) {
 	requestToken := RequestToken{}
 	err := ctx.BindJSON(&requestToken)

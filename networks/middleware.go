@@ -17,6 +17,7 @@ func AuthJWTMiddleware() gin.HandlerFunc {
 		authorizations := c.Request.Header["Authorization"]
 		if len(authorizations) == 0 {
 			util.NewError(c, http.StatusUnauthorized, fmt.Errorf("unauthorized"))
+			c.Abort()
 			return
 		}
 
@@ -33,6 +34,7 @@ func AuthJWTMiddleware() gin.HandlerFunc {
 		if err != nil {
 
 			util.NewError(c, http.StatusUnauthorized, err)
+			c.Abort()
 			return
 		}
 
@@ -40,15 +42,18 @@ func AuthJWTMiddleware() gin.HandlerFunc {
 
 			if err != nil {
 				util.NewError(c, http.StatusUnauthorized, err)
+				c.Abort()
 				return
 			}
 
 			if claims["expiry_date"].(float64) < float64(time.Now().Unix()) {
 				util.NewError(c, http.StatusUnauthorized, fmt.Errorf("Token expired"))
+				c.Abort()
 				return
 			}
 		} else {
 			util.NewError(c, http.StatusUnauthorized, fmt.Errorf("unauthorized"))
+			c.Abort()
 			return
 		}
 

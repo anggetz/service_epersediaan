@@ -8,18 +8,14 @@ definitions:
         type: string
       id:
         type: integer
-      jabatans:
-        type: string
       kode:
         type: string
       level:
-        type: integer
+        type: string
       nama:
         type: string
       organisasi:
-        items:
-          $ref: '#/definitions/organisasi.OrganisasiModel'
-        type: array
+        $ref: '#/definitions/organisasi.OrganisasiModel'
       pid:
         type: integer
       setting:
@@ -34,32 +30,16 @@ definitions:
         example: NOVIRAHYANTI
         type: string
     type: object
+  user.ResponseIAM:
+    properties:
+      organisasi:
+        $ref: '#/definitions/organisasi.OrganisasiModel'
+      username:
+        type: string
+    type: object
   user.ResponseToken:
     properties:
       token:
-        type: string
-    type: object
-  user.UserModel:
-    properties:
-      aktif:
-        type: string
-      email:
-        type: string
-      id:
-        type: integer
-      jabatan:
-        type: integer
-      nip:
-        type: string
-      no_hp:
-        type: string
-      password:
-        type: string
-      rike:
-        type: integer
-      tgl_lahir:
-        type: string
-      username:
         type: string
     type: object
   util.HTTPError:
@@ -90,6 +70,19 @@ paths:
       consumes:
       - application/json
       description: get m_organisasi
+      parameters:
+      - description: take
+        in: query
+        name: take
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: search
+        in: query
+        name: search
+        type: string
       produces:
       - application/json
       responses:
@@ -114,36 +107,7 @@ paths:
       summary: Organisasi
       tags:
       - organisasi
-  /user/data/get:
-    get:
-      consumes:
-      - application/json
-      description: get users
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/user.UserModel'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/util.HTTPError'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/util.HTTPError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/util.HTTPError'
-      security:
-      - ApiKeyAuth: []
-      summary: Users
-      tags:
-      - user
-  /user/token:
+  /user/auth/token:
     post:
       consumes:
       - application/json
@@ -175,6 +139,35 @@ paths:
           schema:
             $ref: '#/definitions/util.HTTPError'
       summary: Token
+      tags:
+      - auth
+  /user/data/iam:
+    post:
+      consumes:
+      - application/json
+      description: get a user logged in info
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.ResponseIAM'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: IAM
       tags:
       - auth
 securityDefinitions:
