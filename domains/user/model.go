@@ -6,6 +6,10 @@ type UserModel struct {
 	Password  string
 }
 
+type ResponseUser struct {
+	Username string
+}
+
 type RequestToken struct {
 	Username string `example:"NOVIRAHYANTI"`
 	Password string `example:"bdg230683"`

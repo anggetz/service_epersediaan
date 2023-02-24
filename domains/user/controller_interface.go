@@ -9,4 +9,5 @@ import (
 type UserController interface {
 	domains.ControllerCrud
 	Token(ctx *gin.Context)
+	IAM(ctx *gin.Context)
 }

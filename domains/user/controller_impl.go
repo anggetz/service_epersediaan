@@ -17,8 +17,11 @@ type UserControllerImpl struct{}
 func NewUserController() UserController {
 	return &UserControllerImpl{}
 }
+func (u *UserControllerImpl) Insert(ctx *gin.Context) {
+	// not impelement yet
+}
 
-// Token   godoc
+// Token   	     godoc
 // @Summary      Users
 // @Description  get users
 // @Tags         user
@@ -32,6 +35,29 @@ func NewUserController() UserController {
 // @Router       /user/data/get [get]
 func (u *UserControllerImpl) Get(ctx *gin.Context) {
 	// not impelement yet
+}
+
+// Token   godoc
+// @Summary      IAM
+// @Description  get a user logged in info
+// @Tags         auth
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  ResponseToken
+// @Failure      400  {object}  util.HTTPError
+// @Failure      404  {object}  util.HTTPError
+// @Failure      500  {object}  util.HTTPError
+// @Router       /user/iam [post]
+func (u *UserController) IAM(ctx *gin.Context) {
+	username, err := util.GetUsername(ctx)
+
+	if err != nil {
+		util.NewError(ctx, http.StatusBadRequest, err)
+		return
+	}
+
+	user, err := NewRepository().GetByUsername(username)
+
 }
 
 // Token   godoc
