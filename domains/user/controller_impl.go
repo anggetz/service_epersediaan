@@ -18,7 +18,7 @@ func NewUserController() UserController {
 	return &UserControllerImpl{}
 }
 
-// Token   godoc
+// Token   		 godoc
 // @Summary      Users
 // @Description  get users
 // @Tags         user
@@ -31,7 +31,18 @@ func NewUserController() UserController {
 // @Security 	 ApiKeyAuth
 // @Router       /user/data/get [get]
 func (u *UserControllerImpl) Get(ctx *gin.Context) {
-	// not impelement yet
+	UserModel, err := NewRepository().GetAllUser()
+	if err != nil {
+		if err == pg.ErrNoRows {
+			err = fmt.Errorf("error")
+		}
+		util.NewError(ctx, http.StatusBadRequest, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"data": UserModel,
+	})
 }
 
 // Token   godoc
@@ -64,7 +75,7 @@ func (u *UserControllerImpl) Token(ctx *gin.Context) {
 		return
 	}
 
-	if !util.IsSame(requestToken.Password, userModel.Password) {
+	if !util.IsSame(requestToken.Password, userModel.PASSWORD) {
 		util.NewError(ctx, http.StatusBadRequest, fmt.Errorf("username or password does not match"))
 		return
 	}
@@ -73,7 +84,7 @@ func (u *UserControllerImpl) Token(ctx *gin.Context) {
 
 	// create jwt here
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"username":    userModel.Username,
+		"username":    userModel.USERNAME,
 		"expiry_date": time.Date(today.Year(), today.Month(), today.Day(), today.Hour(), today.Minute()+int(time.Minute*30), today.Second(), 0, time.UTC).Unix(),
 	})
 

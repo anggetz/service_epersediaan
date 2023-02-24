@@ -18,6 +18,52 @@
     "host": "localhost:8089",
     "basePath": "/v1/public-api",
     "paths": {
+        "/organisasi/data/get": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get m_organisasi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "organisasi"
+                ],
+                "summary": "Organisasi",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/organisasi.OrganisasiModel"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
         "/user/data/get": {
             "get": {
                 "security": [
@@ -118,6 +164,44 @@
         }
     },
     "definitions": {
+        "organisasi.OrganisasiModel": {
+            "type": "object",
+            "properties": {
+                "aktif": {
+                    "type": "integer"
+                },
+                "alamat": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "jabatans": {
+                    "type": "string"
+                },
+                "kode": {
+                    "type": "string"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "nama": {
+                    "type": "string"
+                },
+                "organisasi": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/organisasi.OrganisasiModel"
+                    }
+                },
+                "pid": {
+                    "type": "integer"
+                },
+                "setting": {
+                    "type": "integer"
+                }
+            }
+        },
         "user.RequestToken": {
             "type": "object",
             "properties": {
@@ -142,7 +226,31 @@
         "user.UserModel": {
             "type": "object",
             "properties": {
+                "aktif": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "jabatan": {
+                    "type": "integer"
+                },
+                "nip": {
+                    "type": "string"
+                },
+                "no_hp": {
+                    "type": "string"
+                },
                 "password": {
+                    "type": "string"
+                },
+                "rike": {
+                    "type": "integer"
+                },
+                "tgl_lahir": {
                     "type": "string"
                 },
                 "username": {

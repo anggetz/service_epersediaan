@@ -43,7 +43,7 @@ import (
 
 func main() {
 
-	var configPath = flag.String("config", ".env.local", "please input config path")
+	var configPath = flag.String("config", ".env", "please input config path")
 
 	flag.Parse()
 
