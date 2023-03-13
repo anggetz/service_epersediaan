@@ -1,7 +1,7 @@
 package organisasi
 
 import (
-	"pvg/simada/service-epersediaan/util"
+	"pvg/simada/service-golang/util"
 )
 
 type RepositoryImpl struct{}

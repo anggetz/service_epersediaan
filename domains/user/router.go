@@ -1,8 +1,8 @@
 package user
 
 import (
-	"pvg/simada/service-epersediaan/domains"
-	"pvg/simada/service-epersediaan/networks"
+	"pvg/simada/service-golang/domains"
+	"pvg/simada/service-golang/networks"
 
 	"github.com/gin-gonic/gin"
 )

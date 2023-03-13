@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"pvg/simada/service-epersediaan/util"
+	"pvg/simada/service-golang/util"
 
-	organisasiDomain "pvg/simada/service-epersediaan/domains/organisasi"
+	organisasiDomain "pvg/simada/service-golang/domains/organisasi"
 	"time"
 
 	"github.com/gin-gonic/gin"

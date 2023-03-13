@@ -4,9 +4,12 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"pvg/simada/service-epersediaan/docs"
-	"pvg/simada/service-epersediaan/domains/organisasi"
-	"pvg/simada/service-epersediaan/domains/user"
+	"pvg/simada/service-golang/docs"
+	"pvg/simada/service-golang/domains/organisasi"
+	"pvg/simada/service-golang/domains/penyusutan"
+	"pvg/simada/service-golang/domains/user"
+
+	"github.com/nats-io/nats.go"
 
 	// gin-swagger middleware
 
@@ -48,6 +51,21 @@ func main() {
 	flag.Parse()
 
 	godotenv.Load(*configPath)
+
+	// connect to nats
+	nc, err := nats.Connect(fmt.Sprintf("%s:%s", os.Getenv("NATS_HOST"), os.Getenv("NATS_PORT")))
+	if err != nil {
+		panic(err)
+	}
+
+	// register the subcription
+	penyusutan.NewChannel(nc).RegisterCalcPenyusutan()
+
+	defer nc.Drain()
+
+	defer nc.Close()
+
+	// fmt.Println(string(msg.Data))
 
 	fmt.Println("Configured", *configPath)
 

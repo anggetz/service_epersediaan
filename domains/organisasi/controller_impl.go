@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 	"net/http"
-	"pvg/simada/service-epersediaan/util"
+	"pvg/simada/service-golang/util"
 	"strconv"
 
 	"github.com/gin-gonic/gin"

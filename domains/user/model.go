@@ -1,6 +1,6 @@
 package user
 
-import organisasiDomain "pvg/simada/service-epersediaan/domains/organisasi"
+import organisasiDomain "pvg/simada/service-golang/domains/organisasi"
 
 type UserModel struct {
 	tableName     struct{} `pg:"users"`

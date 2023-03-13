@@ -1,7 +1,7 @@
 package organisasi
 
 import (
-	"pvg/simada/service-epersediaan/domains"
+	"pvg/simada/service-golang/domains"
 )
 
 type OrganisasiController interface {
