@@ -10,12 +10,15 @@ services:
       - 8089:8090
     networks:
       - epersediaan
+      - simada_default
   nats:
     image: nats-streaming:alpine
     restart: always
     networks:
-      - arautomation-net
+      - epersediaan
 
 networks:
     epersediaan:
       driver: bridge
+    simada_default:
+      external: true
