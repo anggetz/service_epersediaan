@@ -229,6 +229,10 @@ func (u *UseCaseImpl) subCalcNilaiBuku(peny *BasePenyusutan, prevPeny *BasePenyu
 	if peny.NilaiBukuTahunBerkenaan < 0 {
 		peny.NilaiBukuTahunBerkenaan = 0
 	}
+
+	if math.IsInf(peny.NilaiBukuTahunBerkenaan, 0) {
+		peny.NilaiBukuTahunBerkenaan = 0
+	}
 }
 
 func (u *UseCaseImpl) subCalcAkumulasiTahunBerkenaan(peny *BasePenyusutan, prevPreny *BasePenyusutan, inv *inventaris.Model, bebanPenyusutan float64, year int) {
@@ -254,6 +258,10 @@ func (u *UseCaseImpl) subCalcAkumulasiTahunBerkenaan(peny *BasePenyusutan, prevP
 	}
 
 	if peny.AkumulasiPenyusutanSDTahunBerkenaan < 0 {
+		peny.AkumulasiPenyusutanSDTahunBerkenaan = 0
+	}
+
+	if math.IsInf(peny.AkumulasiPenyusutanSDTahunBerkenaan, 0) {
 		peny.AkumulasiPenyusutanSDTahunBerkenaan = 0
 	}
 
@@ -290,6 +298,11 @@ func (u *UseCaseImpl) subCalcBebanPenyusutanTahunBerkenaan(peny *BasePenyusutan,
 	if peny.BebanPenyusutanTahunBerkenaan < 0 {
 		peny.BebanPenyusutanTahunBerkenaan = 0
 	}
+
+	if math.IsInf(peny.BebanPenyusutanTahunBerkenaan, 0) {
+		peny.BebanPenyusutanTahunBerkenaan = 0
+	}
+
 }
 
 func (u *UseCaseImpl) subCalcBebanPenyusutanSetelahAtribusi(peny *BasePenyusutan, prevPeny *BasePenyusutan, inv *inventaris.Model, umurEkonomis int, bebanPenyusutan float64, year int) {
@@ -320,6 +333,10 @@ func (u *UseCaseImpl) subCalcBebanPenyusutanSetelahAtribusi(peny *BasePenyusutan
 	peny.BebanPenyusutanSetelahAtribusi = math.Ceil(peny.BebanPenyusutanSetelahAtribusi)
 
 	if peny.BebanPenyusutanSetelahAtribusi < 0 {
+		peny.BebanPenyusutanSetelahAtribusi = 0
+	}
+
+	if math.IsInf(peny.BebanPenyusutanSetelahAtribusi, 0) {
 		peny.BebanPenyusutanSetelahAtribusi = 0
 	}
 }
@@ -442,6 +459,7 @@ func (u *UseCaseImpl) subCalcPemakaianSDTahunBerkenaan(peny *BasePenyusutan, inv
 	} else {
 		peny.PemakaianSDTahunBerkenaan = int(monthDuration)
 	}
+
 }
 
 func (u *UseCaseImpl) subCalcNilaiBukuSetelahAtribusi(peny *BasePenyusutan, prevPeny *BasePenyusutan, pem *pemeliharaan.Model, year int) {
@@ -459,6 +477,10 @@ func (u *UseCaseImpl) subCalcNilaiBukuSetelahAtribusi(peny *BasePenyusutan, prev
 	if peny.NilaiBukuSetelahBulanAtribusi < 0 {
 		peny.NilaiBukuSetelahBulanAtribusi = 0
 	}
+
+	if math.IsInf(peny.NilaiBukuSetelahBulanAtribusi, 0) {
+		peny.NilaiBukuSetelahBulanAtribusi = 0
+	}
 }
 
 func (u *UseCaseImpl) subCalcNilaiBukuSebelumAtribusi(peny *BasePenyusutan, prevPeny *BasePenyusutan, year int) {
@@ -471,6 +493,10 @@ func (u *UseCaseImpl) subCalcNilaiBukuSebelumAtribusi(peny *BasePenyusutan, prev
 		}
 
 		if peny.NilaiBukuSebelumBulanAtribusi < 0 {
+			peny.NilaiBukuSebelumBulanAtribusi = 0
+		}
+
+		if math.IsInf(peny.NilaiBukuSebelumBulanAtribusi, 0) {
 			peny.NilaiBukuSebelumBulanAtribusi = 0
 		}
 	}
@@ -499,6 +525,10 @@ func (u *UseCaseImpl) subCalcBebanPenyusutanSebelumAtribusi(peny *BasePenyusutan
 	peny.BebanPenyusutanSebelumAtribusi = math.Ceil(peny.BebanPenyusutanSebelumAtribusi)
 
 	if peny.BebanPenyusutanSebelumAtribusi < 0 {
+		peny.BebanPenyusutanSebelumAtribusi = 0
+	}
+
+	if math.IsInf(peny.BebanPenyusutanSebelumAtribusi, 0) {
 		peny.BebanPenyusutanSebelumAtribusi = 0
 	}
 
