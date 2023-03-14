@@ -57,7 +57,11 @@ func (u *UseCaseImpl) CalcPenyusutan(opdId int, jenisAset string, dateRunning ti
 			// q.Where("barang.umur_ekonomis != ?", 0)
 
 		} else {
-			q.Relation("Barang")
+			q.Relation("Barang", func(q *orm.Query) (*orm.Query, error) {
+				q.Where("barang.umur_ekonomis != ?", 0)
+
+				return q, nil
+			})
 		}
 	})
 
