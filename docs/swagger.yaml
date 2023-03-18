@@ -1,5 +1,68 @@
 basePath: /v1/public-api
 definitions:
+  barang.InventarisModel:
+    properties:
+      barang:
+        $ref: '#/definitions/barang.Model'
+      harga_satuan:
+        type: number
+      id:
+        type: integer
+      kode_barang:
+        type: string
+      pidbarang:
+        type: integer
+      tahun_perolehan:
+        type: integer
+      tgl_perolehan:
+        type: string
+    type: object
+  barang.MesinModel:
+    properties:
+      bahan:
+        type: string
+      bpkb:
+        type: string
+      id:
+        type: integer
+      inventaris:
+        $ref: '#/definitions/barang.InventarisModel'
+      keterangan:
+        type: string
+      nomesin:
+        type: string
+      nopol:
+        type: string
+      norangka:
+        type: string
+      pidinventaris:
+        type: integer
+      ukuran:
+        type: string
+    type: object
+  barang.Model:
+    properties:
+      id:
+        type: integer
+      kode_akun:
+        type: string
+      kode_jenis:
+        type: string
+      kode_kelompok:
+        type: string
+      kode_objek:
+        type: string
+      kode_rincian_objek:
+        type: string
+      kode_sub_rincian_object:
+        type: string
+      kode_sub_sub_rincian_object:
+        type: string
+      nama_rek_aset:
+        type: string
+      umur_ekonomis:
+        type: integer
+    type: object
   organisasi.OrganisasiModel:
     properties:
       aktif:
@@ -65,6 +128,100 @@ info:
   title: E-Persediaan API
   version: "1.0"
 paths:
+  /barang/data/check-number-plate:
+    get:
+      consumes:
+      - application/json
+      description: get alat angkut master
+      parameters:
+      - description: number_plate
+        in: query
+        name: number_plate
+        required: true
+        type: string
+      - description: pidopd
+        in: query
+        name: pidopd
+        required: true
+        type: integer
+      - description: sub_pidopd
+        in: query
+        name: sub_pidopd
+        required: true
+        type: integer
+      - description: pidupt
+        in: query
+        name: pidupt
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/barang.MesinModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: Barang
+      tags:
+      - barang
+  /barang/data/get-alat-angkut:
+    get:
+      consumes:
+      - application/json
+      description: get alat angkut master
+      parameters:
+      - description: take
+        in: query
+        name: take
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/barang.Model'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: Barang
+      tags:
+      - barang
   /organisasi/data/get:
     get:
       consumes:

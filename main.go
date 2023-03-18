@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"os"
 	"pvg/simada/service-golang/docs"
+	"pvg/simada/service-golang/domains/barang"
 	"pvg/simada/service-golang/domains/organisasi"
 	"pvg/simada/service-golang/domains/penyusutan"
 	"pvg/simada/service-golang/domains/user"
+	"time"
 
 	"github.com/nats-io/nats.go"
 
@@ -77,6 +79,11 @@ func main() {
 	{
 		publicApi := v1.Group("public-api")
 		{
+			barangApi := publicApi.Group("barang")
+			{
+				barang.NewRouter().RegisterHandler(barangApi)
+			}
+
 			userApi := publicApi.Group("user")
 			{
 				user.NewUserRouter().RegisterHandler(userApi)
@@ -95,6 +102,8 @@ func main() {
 		}
 
 	}
+
+	penyusutan.NewUseCase().CalcPenyusutan(186, "3", time.Date(2013, 01, 10, 0, 0, 0, 0, time.Local))
 
 	fmt.Println("Server listening on port " + os.Getenv("EPERSEDIAAN_APP_PORT"))
 

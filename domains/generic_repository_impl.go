@@ -98,6 +98,49 @@ func (g *GenericRepositoryImpl[T]) Exists(qFunc func(*orm.Query)) (bool, error) 
 	return qOrm.Exists()
 }
 
+func (g *GenericRepositoryImpl[T]) Count(take int, offset int, qFunc func(*orm.Query)) (int, error) {
+	var err error
+	totalData := 0
+
+	var dModel T
+
+	var qOrm *orm.Query
+
+	dbUtil := util.NewDatabasePostgres()
+	dbUtil.Connect()
+
+	defer dbUtil.Close()
+
+	if g.tableName != "" {
+		qOrm = dbUtil.GetDB().Model().
+			TableExpr(g.GetTableName())
+	} else {
+		qOrm = dbUtil.GetDB().Model(dModel)
+	}
+
+	if take > 0 {
+		qOrm = qOrm.
+			Limit(take).
+			Offset(offset)
+	}
+
+	qFunc(qOrm)
+
+	if g.tableName != "" {
+		totalData, err = qOrm.Count()
+		if err != nil {
+			return 0, err
+		}
+	} else {
+		totalData, err = qOrm.Count()
+		if err != nil {
+			return 0, err
+		}
+	}
+
+	return totalData, nil
+}
+
 func (g *GenericRepositoryImpl[T]) All(take int, offset int, qFunc func(*orm.Query)) ([]T, error) {
 	data := []T{}
 

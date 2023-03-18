@@ -39,8 +39,6 @@ func (u *OrganisasiControllerImpl) Get(ctx *gin.Context) {
 	params.page, _ = strconv.Atoi(ctx.Request.URL.Query().Get("page"))
 	params.search = ctx.Query("search")
 
-	print(params.take)
-
 	if params.take == 0 {
 		params.take = 15
 	}

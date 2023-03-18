@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"net/url"
 	"os"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -16,6 +17,18 @@ func NewError(ctx *gin.Context, status int, err error) {
 		Message: err.Error(),
 	}
 	ctx.JSON(status, er)
+}
+
+// check required query string
+
+func IsRequiredKeyAvail(keys []string, urls url.Values) error {
+	for _, key := range keys {
+		if !urls.Has(key) {
+			return fmt.Errorf("%s is required", key)
+		}
+	}
+
+	return nil
 }
 
 // HTTPError example

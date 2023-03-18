@@ -2,19 +2,21 @@ package penyusutan
 
 import (
 	"pvg/simada/service-golang/domains"
+	"pvg/simada/service-golang/domains/inventaris"
 	"time"
 )
 
 type Penyusutan interface{}
 
 type BasePenyusutan struct {
-	tableName                      struct{} `pg:"_"`
-	Id                             int      `json:"id"`
-	InventarisID                   int      `json:"inventaris_id"`
-	TotalAtribusi                  float64  `json:"total_atribusi"`
-	BebanPenyusutanSebelumAtribusi float64  `json:"beban_penyusutan_sebelum_atribusi"`
-	BebanPenyusutanSetelahAtribusi float64  `json:"beban_penyusutan_setelah_atribusi"`
-	BebanPenyusutanTahunBerkenaan  float64  `json:"beban_penyusutan_tahun_berkenaan"`
+	tableName                      struct{}          `pg:"_"`
+	Id                             int               `json:"id"`
+	InventarisID                   int               `json:"inventaris_id" pg:"on_delete:CASCADE,on_update:NO ACTION"`
+	Inventaris                     *inventaris.Model `pg:",fk:inventaris_id"`
+	TotalAtribusi                  float64           `json:"total_atribusi"`
+	BebanPenyusutanSebelumAtribusi float64           `json:"beban_penyusutan_sebelum_atribusi"`
+	BebanPenyusutanSetelahAtribusi float64           `json:"beban_penyusutan_setelah_atribusi"`
+	BebanPenyusutanTahunBerkenaan  float64           `json:"beban_penyusutan_tahun_berkenaan"`
 
 	NilaiBukuSebelumBulanAtribusi       float64 `json:"nilai_buku_sebelum_bulan_atribusi"`
 	NilaiBukuSetelahBulanAtribusi       float64 `json:"nilai_buku_setelah_bulan_atribusi"`

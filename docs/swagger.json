@@ -18,6 +18,151 @@
     "host": "localhost:8089",
     "basePath": "/v1/public-api",
     "paths": {
+        "/barang/data/check-number-plate": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get alat angkut master",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "barang"
+                ],
+                "summary": "Barang",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "number_plate",
+                        "name": "number_plate",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "pidopd",
+                        "name": "pidopd",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "sub_pidopd",
+                        "name": "sub_pidopd",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "pidupt",
+                        "name": "pidupt",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/barang.MesinModel"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/barang/data/get-alat-angkut": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get alat angkut master",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "barang"
+                ],
+                "summary": "Barang",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "take",
+                        "name": "take",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "search",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/barang.Model"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
         "/organisasi/data/get": {
             "get": {
                 "security": [
@@ -184,6 +329,102 @@
         }
     },
     "definitions": {
+        "barang.InventarisModel": {
+            "type": "object",
+            "properties": {
+                "barang": {
+                    "$ref": "#/definitions/barang.Model"
+                },
+                "harga_satuan": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "kode_barang": {
+                    "type": "string"
+                },
+                "pidbarang": {
+                    "type": "integer"
+                },
+                "tahun_perolehan": {
+                    "type": "integer"
+                },
+                "tgl_perolehan": {
+                    "type": "string"
+                }
+            }
+        },
+        "barang.MesinModel": {
+            "type": "object",
+            "properties": {
+                "bahan": {
+                    "type": "string"
+                },
+                "bpkb": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "inventaris": {
+                    "$ref": "#/definitions/barang.InventarisModel"
+                },
+                "keterangan": {
+                    "type": "string"
+                },
+                "nomesin": {
+                    "type": "string"
+                },
+                "nopol": {
+                    "type": "string"
+                },
+                "norangka": {
+                    "type": "string"
+                },
+                "pidinventaris": {
+                    "type": "integer"
+                },
+                "ukuran": {
+                    "type": "string"
+                }
+            }
+        },
+        "barang.Model": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "kode_akun": {
+                    "type": "string"
+                },
+                "kode_jenis": {
+                    "type": "string"
+                },
+                "kode_kelompok": {
+                    "type": "string"
+                },
+                "kode_objek": {
+                    "type": "string"
+                },
+                "kode_rincian_objek": {
+                    "type": "string"
+                },
+                "kode_sub_rincian_object": {
+                    "type": "string"
+                },
+                "kode_sub_sub_rincian_object": {
+                    "type": "string"
+                },
+                "nama_rek_aset": {
+                    "type": "string"
+                },
+                "umur_ekonomis": {
+                    "type": "integer"
+                }
+            }
+        },
         "organisasi.OrganisasiModel": {
             "type": "object",
             "properties": {
