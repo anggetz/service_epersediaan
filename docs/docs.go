@@ -54,22 +54,19 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "pidopd",
                         "name": "pidopd",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     },
                     {
                         "type": "integer",
                         "description": "sub_pidopd",
                         "name": "sub_pidopd",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     },
                     {
                         "type": "integer",
                         "description": "pidupt",
                         "name": "pidupt",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     }
                 ],
                 "responses": {

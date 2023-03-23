@@ -73,9 +73,9 @@ func (c *ControllerImpl) GetAlatAngkut(ctx *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        number_plate	query	string		true	"number_plate"
-// @Param        pidopd			query	int			true	"pidopd"
-// @Param        sub_pidopd		query	int			true	"sub_pidopd"
-// @Param        pidupt			query	int			true	"pidupt"
+// @Param        pidopd			query	int			false	"pidopd"
+// @Param        sub_pidopd		query	int			false	"sub_pidopd"
+// @Param        pidupt			query	int			false	"pidupt"
 // @Success      200  {object}  MesinModel
 // @Failure      400  {object}  util.HTTPError
 // @Failure      404  {object}  util.HTTPError
@@ -85,7 +85,7 @@ func (c *ControllerImpl) GetAlatAngkut(ctx *gin.Context) {
 func (c *ControllerImpl) CheckNumberPlate(ctx *gin.Context) {
 	params := ParamCheckNumberPlate{}
 
-	errHttpRequired := util.IsRequiredKeyAvail([]string{"number_plate", "pidopd", "sub_pidopd", "pidupt"}, ctx.Request.URL.Query())
+	errHttpRequired := util.IsRequiredKeyAvail([]string{"number_plate"}, ctx.Request.URL.Query())
 	if errHttpRequired != nil {
 		util.NewError(ctx, http.StatusBadRequest, errHttpRequired)
 		return

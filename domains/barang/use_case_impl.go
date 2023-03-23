@@ -57,9 +57,17 @@ func (u *UseCaseImpl) CheckPlatNumber(platNumber string, opdid int, opdid_cabang
 		q.Where("mesin.nopol = ?", platNumber)
 
 		q.Relation("Inventaris", func(q *orm.Query) (*orm.Query, error) {
-			q.Where("inventaris.pidopd = ?", opdid)
-			q.Where("inventaris.pidopd_cabang = ?", opdid_cabang)
-			q.Where("inventaris.pidupt = ?", uptid)
+			if opdid != 0 {
+				q.Where("inventaris.pidopd = ?", opdid)
+			}
+
+			if opdid_cabang != 0 {
+				q.Where("inventaris.pidopd_cabang = ?", opdid_cabang)
+			}
+
+			if uptid != 0 {
+				q.Where("inventaris.pidupt = ?", uptid)
+			}
 
 			return q, nil
 		})

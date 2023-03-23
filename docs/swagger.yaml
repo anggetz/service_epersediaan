@@ -142,17 +142,14 @@ paths:
       - description: pidopd
         in: query
         name: pidopd
-        required: true
         type: integer
       - description: sub_pidopd
         in: query
         name: sub_pidopd
-        required: true
         type: integer
       - description: pidupt
         in: query
         name: pidupt
-        required: true
         type: integer
       produces:
       - application/json
