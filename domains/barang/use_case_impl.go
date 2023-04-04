@@ -54,7 +54,9 @@ func (u *UseCaseImpl) CheckPlatNumberChassisNumberAndMachineNumber(platNumber st
 		// 	return q, nil
 		// })
 
-		q.Where("mesin.nopol = ?", platNumber)
+		if platNumber != "" {
+			q.Where("mesin.nopol = ?", platNumber)
+		}
 
 		if chassisNumber != "" {
 			q.Where("mesin.norangka = ?", chassisNumber)

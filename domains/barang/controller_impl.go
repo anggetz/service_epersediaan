@@ -72,7 +72,7 @@ func (c *ControllerImpl) GetAlatAngkut(ctx *gin.Context) {
 // @Tags         barang
 // @Accept       json
 // @Produce      json
-// @Param        number_plate	query	string		true	"number_plate"
+// @Param        number_plate	query	string		false	"number_plate"
 // @Param        chassis_number	query	string		false	"chassis_number"
 // @Param        machine_number	query	string		false	"machine_number"
 // @Param        pidopd			query	int			false	"pidopd"

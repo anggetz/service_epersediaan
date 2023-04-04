@@ -47,8 +47,7 @@ const docTemplate = `{
                         "type": "string",
                         "description": "number_plate",
                         "name": "number_plate",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     },
                     {
                         "type": "string",

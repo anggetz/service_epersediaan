@@ -137,7 +137,6 @@ paths:
       - description: number_plate
         in: query
         name: number_plate
-        required: true
         type: string
       - description: chassis_number
         in: query
