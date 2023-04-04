@@ -87,7 +87,7 @@ func (c *ControllerImpl) GetAlatAngkut(ctx *gin.Context) {
 func (c *ControllerImpl) CheckNumberPlate(ctx *gin.Context) {
 	params := ParamCheckNumberPlate{}
 
-	errHttpRequired := util.IsRequiredKeyAvail([]string{"number_plate"}, ctx.Request.URL.Query())
+	errHttpRequired := util.IsRequiredKeyAvail([]string{}, ctx.Request.URL.Query())
 	if errHttpRequired != nil {
 		util.NewError(ctx, http.StatusBadRequest, errHttpRequired)
 		return
