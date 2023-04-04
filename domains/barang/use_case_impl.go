@@ -44,6 +44,10 @@ func (u *UseCaseImpl) GetApelMaster(page int, offset int, search string) ([]*Mod
 }
 
 func (u *UseCaseImpl) CheckPlatNumberChassisNumberAndMachineNumber(platNumber string, chassisNumber string, machineNumber string, opdid int, opdid_cabang int, uptid int) (*MesinModel, error) {
+	if platNumber == "" && chassisNumber == "" && machineNumber == "" {
+		return nil, fmt.Errorf("nopol, nomor rangka, atau nomor mesin salah satu harus terisi!")
+	}
+
 	inventarises, err := domains.NewGenericRepository[*MesinModel]().All(-1, -1, func(q *orm.Query) {
 		// q.Relation("Barang", func(q *orm.Query) (*orm.Query, error) {
 		// 	// q.Where("barang.kode_akun = ?", "1")
