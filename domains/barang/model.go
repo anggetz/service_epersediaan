@@ -55,8 +55,10 @@ type ParamPagination struct {
 }
 
 type ParamCheckNumberPlate struct {
-	NumberPlate string `example:"W 600 X"`
-	Pidopd      int    `example:"1"`
-	SubPidopd   int    `example:"2"`
-	Pidupt      int    `example:"3"`
+	NumberPlate   string `example:"D 1501 C"`
+	ChassisNumber string `example:"MHF11KF83 30078100"`
+	MachineNumber string `example:"7K 0597045"`
+	Pidopd        int    `example:"1"`
+	SubPidopd     int    `example:"2"`
+	Pidupt        int    `example:"3"`
 }

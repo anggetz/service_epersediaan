@@ -139,6 +139,14 @@ paths:
         name: number_plate
         required: true
         type: string
+      - description: chassis_number
+        in: query
+        name: chassis_number
+        type: string
+      - description: machine_number
+        in: query
+        name: machine_number
+        type: string
       - description: pidopd
         in: query
         name: pidopd

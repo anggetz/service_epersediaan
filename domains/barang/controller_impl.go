@@ -73,6 +73,8 @@ func (c *ControllerImpl) GetAlatAngkut(ctx *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        number_plate	query	string		true	"number_plate"
+// @Param        chassis_number	query	string		false	"chassis_number"
+// @Param        machine_number	query	string		false	"machine_number"
 // @Param        pidopd			query	int			false	"pidopd"
 // @Param        sub_pidopd		query	int			false	"sub_pidopd"
 // @Param        pidupt			query	int			false	"pidupt"
@@ -92,11 +94,13 @@ func (c *ControllerImpl) CheckNumberPlate(ctx *gin.Context) {
 	}
 
 	params.NumberPlate = ctx.Request.URL.Query().Get("number_plate")
+	params.ChassisNumber = ctx.Request.URL.Query().Get("chassis_number")
+	params.MachineNumber = ctx.Request.URL.Query().Get("machine_number")
 	params.Pidopd, _ = strconv.Atoi(ctx.Request.URL.Query().Get("pidopd"))
 	params.SubPidopd, _ = strconv.Atoi(ctx.Request.URL.Query().Get("sub_pidopd"))
 	params.Pidupt, _ = strconv.Atoi(ctx.Request.URL.Query().Get("pidupt"))
 
-	databarang, err := NewUseCase().CheckPlatNumber(params.NumberPlate, params.Pidopd, params.SubPidopd, params.Pidupt)
+	databarang, err := NewUseCase().CheckPlatNumberChassisNumberAndMachineNumber(params.NumberPlate, params.ChassisNumber, params.MachineNumber, params.Pidopd, params.SubPidopd, params.Pidupt)
 	if err != nil {
 		util.NewError(ctx, http.StatusBadRequest, err)
 		return

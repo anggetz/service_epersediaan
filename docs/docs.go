@@ -51,6 +51,18 @@ const docTemplate = `{
                         "required": true
                     },
                     {
+                        "type": "string",
+                        "description": "chassis_number",
+                        "name": "chassis_number",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "machine_number",
+                        "name": "machine_number",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "description": "pidopd",
                         "name": "pidopd",
