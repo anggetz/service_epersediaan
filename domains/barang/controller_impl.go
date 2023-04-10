@@ -15,16 +15,83 @@ func NewController() Controller {
 	return &ControllerImpl{}
 }
 
+type ResponseGetRegisteredDataTransportation struct {
+	Data      MesinModel `json:"data"`
+	DataTotal int        `json:"data_total"`
+	TotalPage int        `json:"total_page"`
+	Page      int        `json:"page"`
+}
+
 // Token   godoc
-// @Summary      Barang
-// @Description  get alat angkut master
+// @Summary      registered items
+// @Description  get registered data tranportation
 // @Tags         barang
 // @Accept       json
 // @Produce      json
 // @Param        take	query	int			false	"take"
 // @Param        page	query	int			false	"page"
 // @Param        search	query	string		false	"search"
-// @Success      200  {array}  	Model
+// @Param        opd_id	query	int			false	"opd_id"
+// @Success      200  {array}  	ResponseGetRegisteredDataTransportation
+// @Failure      400  {object}  util.HTTPError
+// @Failure      404  {object}  util.HTTPError
+// @Failure      500  {object}  util.HTTPError
+// @Security 	 ApiKeyAuth
+// @Router       /barang/data/registered/get-transportation [get]
+func (c *ControllerImpl) GetRegisteredDataTransportation(ctx *gin.Context) {
+	params := ParamPaginationDataTransportration{}
+
+	params.take, _ = strconv.Atoi(ctx.Request.URL.Query().Get("take"))
+	params.page, _ = strconv.Atoi(ctx.Request.URL.Query().Get("page"))
+	params.pidopd, _ = strconv.Atoi(ctx.Request.URL.Query().Get("opd_id"))
+	params.search = ctx.Query("search")
+
+	if params.take == 0 {
+		params.take = 15
+	}
+
+	if params.page == 0 {
+		params.page = 1
+	}
+
+	var offset int = 0
+	if params.page == 1 {
+		offset = 0
+	} else {
+		offset = (params.page - 1) * params.take
+	}
+
+	databarang, totalData, err := NewUseCase().GetRegisteredDataTransportation(params.take, offset, params.pidopd, params.search)
+	if err != nil {
+		util.NewError(ctx, http.StatusBadRequest, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"data":       databarang,
+		"data_total": totalData,
+		"total_page": int(math.Ceil(float64(totalData) / float64(params.take))),
+		"page":       params.page,
+	})
+}
+
+type ResponseGetGetAlatAngkut struct {
+	Data      Model `json:"data"`
+	DataTotal int   `json:"data_total"`
+	TotalPage int   `json:"total_page"`
+	Page      int   `json:"page"`
+}
+
+// Token   godoc
+// @Summary      master data
+// @Description  get master transportration
+// @Tags         barang
+// @Accept       json
+// @Produce      json
+// @Param        take	query	int			false	"take"
+// @Param        page	query	int			false	"page"
+// @Param        search	query	string		false	"search"
+// @Success      200  {array}  	ResponseGetGetAlatAngkut
 // @Failure      400  {object}  util.HTTPError
 // @Failure      404  {object}  util.HTTPError
 // @Failure      500  {object}  util.HTTPError
@@ -59,16 +126,16 @@ func (c *ControllerImpl) GetAlatAngkut(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"data":      databarang,
-		"dataTotal": totalData,
-		"totalPage": int(math.Ceil(float64(totalData) / float64(params.take))),
-		"page":      params.page,
+		"data":       databarang,
+		"data_total": totalData,
+		"total_page": int(math.Ceil(float64(totalData) / float64(params.take))),
+		"page":       params.page,
 	})
 }
 
 // Token   godoc
-// @Summary      Barang
-// @Description  get alat angkut master
+// @Summary      check registered transportration item
+// @Description  check registered number plate
 // @Tags         barang
 // @Accept       json
 // @Produce      json

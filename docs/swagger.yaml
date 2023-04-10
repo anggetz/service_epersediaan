@@ -10,7 +10,19 @@ definitions:
         type: integer
       kode_barang:
         type: string
+      kuasa_pengguna_barang:
+        $ref: '#/definitions/barang.Organisasi'
+      kuasa_pengguna_barang_id:
+        type: integer
+      pengguna_barang:
+        $ref: '#/definitions/barang.Organisasi'
+      pengguna_barang_id:
+        type: integer
       pidbarang:
+        type: integer
+      sub_kuasa_pengguna_barang:
+        $ref: '#/definitions/barang.Organisasi'
+      sub_kuasa_pengguna_barang_id:
         type: integer
       tahun_perolehan:
         type: integer
@@ -61,6 +73,39 @@ definitions:
       nama_rek_aset:
         type: string
       umur_ekonomis:
+        type: integer
+    type: object
+  barang.Organisasi:
+    properties:
+      id:
+        type: integer
+      kode:
+        type: string
+      level:
+        type: integer
+      nama:
+        type: string
+    type: object
+  barang.ResponseGetGetAlatAngkut:
+    properties:
+      data:
+        $ref: '#/definitions/barang.Model'
+      data_total:
+        type: integer
+      page:
+        type: integer
+      total_page:
+        type: integer
+    type: object
+  barang.ResponseGetRegisteredDataTransportation:
+    properties:
+      data:
+        $ref: '#/definitions/barang.MesinModel'
+      data_total:
+        type: integer
+      page:
+        type: integer
+      total_page:
         type: integer
     type: object
   organisasi.OrganisasiModel:
@@ -132,7 +177,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: get alat angkut master
+      description: check registered number plate
       parameters:
       - description: number_plate
         in: query
@@ -179,14 +224,14 @@ paths:
             $ref: '#/definitions/util.HTTPError'
       security:
       - ApiKeyAuth: []
-      summary: Barang
+      summary: check registered transportration item
       tags:
       - barang
   /barang/data/get-alat-angkut:
     get:
       consumes:
       - application/json
-      description: get alat angkut master
+      description: get master transportration
       parameters:
       - description: take
         in: query
@@ -207,7 +252,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/barang.Model'
+              $ref: '#/definitions/barang.ResponseGetGetAlatAngkut'
             type: array
         "400":
           description: Bad Request
@@ -223,7 +268,55 @@ paths:
             $ref: '#/definitions/util.HTTPError'
       security:
       - ApiKeyAuth: []
-      summary: Barang
+      summary: master data
+      tags:
+      - barang
+  /barang/data/registered/get-transportation:
+    get:
+      consumes:
+      - application/json
+      description: get registered data tranportation
+      parameters:
+      - description: take
+        in: query
+        name: take
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: opd_id
+        in: query
+        name: opd_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/barang.ResponseGetRegisteredDataTransportation'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: registered items
       tags:
       - barang
   /organisasi/data/get:

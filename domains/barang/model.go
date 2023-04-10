@@ -32,26 +32,47 @@ type MesinModel struct {
 	Nopol                string           `json:"nopol"`
 	BPKB                 string           `json:"bpkb"`
 	Keterangan           string           `json:"keterangan"`
-	Inventaris           *InventarisModel `pg:",fk:pidinventaris"`
+	Inventaris           *InventarisModel `pg:",fk:pidinventaris" json:"inventaris"`
 	domains.GenericModel `swaggerignore:"true" json:"-"`
 }
 
+type Organisasi struct {
+	tableName struct{} `pg:"m_organisasi,discard_unknown_columns,alias:organisasi"`
+	ID        int      `json:"id"`
+	Level     int      `json:"level"`
+	Nama      string   `json:"nama"`
+	Kode      string   `json:"kode"`
+}
+
 type InventarisModel struct {
-	tableName            struct{}   `pg:"inventaris,discard_unknown_columns,alias:inventaris"`
-	ID                   int        `json:"id"`
-	PIDBarang            int        `pg:"pidbarang" json:"pidbarang"`
-	TahunPerolehan       int        `pg:"tahun_perolehan" json:"tahun_perolehan"`
-	TglPerolehan         *time.Time `pg:"tgl_perolehan" json:"tgl_perolehan"`
-	HargaSatuan          float64    `pg:"harga_satuan" json:"harga_satuan"`
-	KodeBarang           string     `json:"kode_barang"`
-	Barang               *Model     `pg:",fk:pidbarang"`
-	domains.GenericModel `swaggerignore:"true" json:"-"`
+	tableName              struct{}    `pg:"inventaris,discard_unknown_columns,alias:inventaris"`
+	ID                     int         `json:"id"`
+	PIDBarang              int         `pg:"pidbarang" json:"pidbarang"`
+	TahunPerolehan         int         `pg:"tahun_perolehan" json:"tahun_perolehan"`
+	TglPerolehan           *time.Time  `pg:"tgl_perolehan" json:"tgl_perolehan"`
+	HargaSatuan            float64     `pg:"harga_satuan" json:"harga_satuan"`
+	KodeBarang             string      `json:"kode_barang"`
+	Barang                 *Model      `pg:",fk:pidbarang"`
+	PidOPD                 int         `pg:"pidopd" json:"pengguna_barang_id"`
+	PidOPDCabang           int         `pg:"pidopd_cabang" json:"kuasa_pengguna_barang_id"`
+	PidUPT                 int         `pg:"pidupt" json:"sub_kuasa_pengguna_barang_id"`
+	PenggunaBarang         *Organisasi `pg:",fk:pidopd" json:"pengguna_barang"`
+	KuasaPenggunaBarang    *Organisasi `pg:",fk:pidopd_cabang" json:"kuasa_pengguna_barang"`
+	SubKuasaPenggunaBarang *Organisasi `pg:",fk:pidupt" json:"sub_kuasa_pengguna_barang"`
+	domains.GenericModel   `swaggerignore:"true" json:"-"`
 }
 
 type ParamPagination struct {
 	take   int    `example:"10"`
 	page   int    `example:"1"`
 	search string `example:"smk"`
+}
+
+type ParamPaginationDataTransportration struct {
+	take   int    `example:"10"`
+	page   int    `example:"1"`
+	search string `example:"C"`
+	pidopd int    `example:"C"`
 }
 
 type ParamCheckNumberPlate struct {

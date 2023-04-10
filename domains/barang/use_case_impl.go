@@ -13,6 +13,46 @@ func NewUseCase() UseCase {
 	return &UseCaseImpl{}
 }
 
+func (u *UseCaseImpl) GetRegisteredDataTransportation(page int, offset int, pidopd int, search string) ([]*MesinModel, int, error) {
+	funcClause := func(isCountClause bool) func(*orm.Query) {
+		return func(q *orm.Query) {
+
+			if search != "" {
+				q.WhereGroup(func(q *orm.Query) (*orm.Query, error) {
+					q.WhereOr("mesin.nopol LIKE ?", "%"+search+"%")
+					q.WhereOr("mesin.norangka LIKE ?", "%"+search+"%")
+					q.WhereOr("mesin.nomesin LIKE ?", "%"+search+"%")
+
+					return q, nil
+				})
+
+			}
+
+			q.Relation("Inventaris", func(q *orm.Query) (*orm.Query, error) {
+				if pidopd != 0 {
+					q.Where("inventaris.pidopd = ?", pidopd)
+				}
+
+				return q, nil
+			})
+
+		}
+	}
+
+	data, err := domains.NewGenericRepository[*MesinModel]().All(page, offset, funcClause(false))
+	if err != nil {
+		return nil, 0, fmt.Errorf("could not get data barang :%v", err.Error())
+	}
+
+	totalData, err := domains.NewGenericRepository[*MesinModel]().Count(page, offset, funcClause(true))
+
+	if err != nil {
+		return nil, 0, fmt.Errorf("could not total data barang :%v", err.Error())
+	}
+
+	return data, totalData, nil
+}
+
 func (u *UseCaseImpl) GetApelMaster(page int, offset int, search string) ([]*Model, int, error) {
 	funcClause := func(isCountClause bool) func(*orm.Query) {
 		return func(q *orm.Query) {
@@ -86,6 +126,20 @@ func (u *UseCaseImpl) CheckPlatNumberChassisNumberAndMachineNumber(platNumber st
 			return q, nil
 		})
 
+		q.Relation("Inventaris.PenggunaBarang", func(q *orm.Query) (*orm.Query, error) {
+
+			return q, nil
+		})
+
+		q.Relation("Inventaris.KuasaPenggunaBarang", func(q *orm.Query) (*orm.Query, error) {
+
+			return q, nil
+		})
+
+		q.Relation("Inventaris.SubKuasaPenggunaBarang", func(q *orm.Query) (*orm.Query, error) {
+
+			return q, nil
+		})
 		q.Relation("Inventaris.Barang", func(q *orm.Query) (*orm.Query, error) {
 
 			return q, nil

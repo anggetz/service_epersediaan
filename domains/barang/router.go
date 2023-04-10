@@ -14,9 +14,17 @@ func NewRouter() domains.Route {
 }
 
 func (u *Router) RegisterHandler(r *gin.RouterGroup) {
+
 	dataApi := r.Group("data").Use(networks.AuthJWTMiddleware())
 	{
 		dataApi.GET("/get-alat-angkut", NewController().GetAlatAngkut)
 		dataApi.GET("/check-number-plate", NewController().CheckNumberPlate)
+
 	}
+
+	dataRegistered := r.Group("data/registered").Use(networks.AuthJWTMiddleware())
+	{
+		dataRegistered.GET("/get-transportation", NewController().GetRegisteredDataTransportation)
+	}
+
 }

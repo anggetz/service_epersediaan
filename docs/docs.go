@@ -31,7 +31,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get alat angkut master",
+                "description": "check registered number plate",
                 "consumes": [
                     "application/json"
                 ],
@@ -41,7 +41,7 @@ const docTemplate = `{
                 "tags": [
                     "barang"
                 ],
-                "summary": "Barang",
+                "summary": "check registered transportration item",
                 "parameters": [
                     {
                         "type": "string",
@@ -115,7 +115,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get alat angkut master",
+                "description": "get master transportration",
                 "consumes": [
                     "application/json"
                 ],
@@ -125,7 +125,7 @@ const docTemplate = `{
                 "tags": [
                     "barang"
                 ],
-                "summary": "Barang",
+                "summary": "master data",
                 "parameters": [
                     {
                         "type": "integer",
@@ -152,7 +152,82 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/barang.Model"
+                                "$ref": "#/definitions/barang.ResponseGetGetAlatAngkut"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/barang/data/registered/get-transportation": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get registered data tranportation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "barang"
+                ],
+                "summary": "registered items",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "take",
+                        "name": "take",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "search",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "opd_id",
+                        "name": "opd_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/barang.ResponseGetRegisteredDataTransportation"
                             }
                         }
                     },
@@ -358,7 +433,25 @@ const docTemplate = `{
                 "kode_barang": {
                     "type": "string"
                 },
+                "kuasa_pengguna_barang": {
+                    "$ref": "#/definitions/barang.Organisasi"
+                },
+                "kuasa_pengguna_barang_id": {
+                    "type": "integer"
+                },
+                "pengguna_barang": {
+                    "$ref": "#/definitions/barang.Organisasi"
+                },
+                "pengguna_barang_id": {
+                    "type": "integer"
+                },
                 "pidbarang": {
+                    "type": "integer"
+                },
+                "sub_kuasa_pengguna_barang": {
+                    "$ref": "#/definitions/barang.Organisasi"
+                },
+                "sub_kuasa_pengguna_barang_id": {
                     "type": "integer"
                 },
                 "tahun_perolehan": {
@@ -435,6 +528,57 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "umur_ekonomis": {
+                    "type": "integer"
+                }
+            }
+        },
+        "barang.Organisasi": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "kode": {
+                    "type": "string"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "nama": {
+                    "type": "string"
+                }
+            }
+        },
+        "barang.ResponseGetGetAlatAngkut": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/barang.Model"
+                },
+                "data_total": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "total_page": {
+                    "type": "integer"
+                }
+            }
+        },
+        "barang.ResponseGetRegisteredDataTransportation": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/barang.MesinModel"
+                },
+                "data_total": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "total_page": {
                     "type": "integer"
                 }
             }
