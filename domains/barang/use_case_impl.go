@@ -16,6 +16,11 @@ func NewUseCase() UseCase {
 func (u *UseCaseImpl) GetRegisteredDataTransportation(page int, offset int, pidopd int, search string) ([]*MesinModel, int, error) {
 	funcClause := func(isCountClause bool) func(*orm.Query) {
 		return func(q *orm.Query) {
+			q.WhereGroup(func(q *orm.Query) (*orm.Query, error) {
+				q.Where("mesin.nopol != ?", "-")
+				q.Where("mesin.nopol != ?", "")
+				return q, nil
+			})
 
 			if search != "" {
 				q.WhereGroup(func(q *orm.Query) (*orm.Query, error) {
