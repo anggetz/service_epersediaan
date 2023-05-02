@@ -288,6 +288,12 @@ const docTemplate = `{
                         "description": "search",
                         "name": "search",
                         "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "2,1,0,-1,-2",
+                        "name": "level",
+                        "in": "query"
                     }
                 ],
                 "responses": {

@@ -26,6 +26,7 @@ func NewOrganisasiController() OrganisasiController {
 // @Param        take	query	int			false	"take"
 // @Param        page	query	int			false	"page"
 // @Param        search	query	string		false	"search"
+// @Param        level	query	int		false	"2,1,0,-1,-2"
 // @Success      200  {object}  OrganisasiModel
 // @Failure      400  {object}  util.HTTPError
 // @Failure      404  {object}  util.HTTPError
@@ -38,6 +39,13 @@ func (u *OrganisasiControllerImpl) Get(ctx *gin.Context) {
 	params.take, _ = strconv.Atoi(ctx.Request.URL.Query().Get("take"))
 	params.page, _ = strconv.Atoi(ctx.Request.URL.Query().Get("page"))
 	params.search = ctx.Query("search")
+
+	if ctx.Request.URL.Query().Get("level") == "" {
+		params.level = nil
+	} else {
+		level, _ := strconv.Atoi(ctx.Request.URL.Query().Get("level"))
+		params.level = &level
+	}
 
 	if params.take == 0 {
 		params.take = 15
@@ -54,7 +62,7 @@ func (u *OrganisasiControllerImpl) Get(ctx *gin.Context) {
 		offset = (params.page - 1) * params.take
 	}
 
-	organisasi, err := NewRepository().GetAllOrganisasi(params.page, params.take, offset, params.search)
+	organisasi, err := NewRepository().GetAllOrganisasi(params.page, params.take, offset, params.search, params.level)
 	if err != nil {
 		if err == pg.ErrNoRows {
 			err = fmt.Errorf("error")

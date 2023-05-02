@@ -337,6 +337,10 @@ paths:
         in: query
         name: search
         type: string
+      - description: 2,1,0,-1,-2
+        in: query
+        name: level
+        type: integer
       produces:
       - application/json
       responses:

@@ -22,4 +22,5 @@ type ParamPagination struct {
 	take   int    `example:"10"`
 	page   int    `example:"1"`
 	search string `example:"smk"`
+	level  *int   `example:"2,1,0,0,-1,-2"`
 }
