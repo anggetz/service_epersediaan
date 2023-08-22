@@ -177,6 +177,75 @@ const docTemplate = `{
                 }
             }
         },
+        "/barang/data/get-non-alat-angkut": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get master non transportration",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "barang"
+                ],
+                "summary": "master data",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "take",
+                        "name": "take",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "search",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/barang.ResponseNonALatAngkut"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
         "/barang/data/registered/get-transportation": {
             "get": {
                 "security": [
@@ -586,6 +655,32 @@ const docTemplate = `{
                 },
                 "total_page": {
                     "type": "integer"
+                }
+            }
+        },
+        "barang.ResponseNonALatAngkut": {
+            "type": "object",
+            "properties": {
+                "kode_barang": {
+                    "type": "string"
+                },
+                "kuasa_pengguna_barang": {
+                    "type": "string"
+                },
+                "merk_type": {
+                    "type": "string"
+                },
+                "nama_barang": {
+                    "type": "string"
+                },
+                "nilai_perolehan": {
+                    "type": "string"
+                },
+                "pengguna_barang": {
+                    "type": "string"
+                },
+                "tahun_perolehan": {
+                    "type": "string"
                 }
             }
         },

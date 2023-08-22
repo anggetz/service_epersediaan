@@ -18,6 +18,7 @@ func (u *Router) RegisterHandler(r *gin.RouterGroup) {
 	dataApi := r.Group("data").Use(networks.AuthJWTMiddleware())
 	{
 		dataApi.GET("/get-alat-angkut", NewController().GetAlatAngkut)
+		dataApi.GET("/get-non-alat-angkut", NewController().GetNonAlatAngkut)
 		dataApi.GET("/check-number-plate", NewController().CheckNumberPlate)
 
 	}

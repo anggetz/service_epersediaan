@@ -62,6 +62,19 @@ type InventarisModel struct {
 	domains.GenericModel   `swaggerignore:"true" json:"-"`
 }
 
+type ResponseNonALatAngkut struct {
+	tableName struct{} `pg:"detil_mesin,discard_unknown_columns,alias:mesin"`
+
+	KodeBarang           string `pg:"kode_barang" json:"kode_barang"`
+	NamaBarang           string `pg:"nama_barang" json:"nama_barang"`
+	MerkType             string `pg:"merk_type" json:"merk_type"`
+	TahunPerolehan       string `pg:"tahun_perolehan" json:"tahun_perolehan"`
+	NilaiPerolehan       string `pg:"nilai_perolehan" json:"nilai_perolehan"`
+	PenggunaBarang       string `pg:"pengguna_barang" json:"pengguna_barang"`
+	KuasaPenggunaBarang  string `pg:"kuasa_pengguna_barang" json:"kuasa_pengguna_barang"`
+	domains.GenericModel `swaggerignore:"true" json:"-"`
+}
+
 type ParamPagination struct {
 	take   int    `example:"10"`
 	page   int    `example:"1"`

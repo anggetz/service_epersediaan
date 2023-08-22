@@ -108,6 +108,23 @@ definitions:
       total_page:
         type: integer
     type: object
+  barang.ResponseNonALatAngkut:
+    properties:
+      kode_barang:
+        type: string
+      kuasa_pengguna_barang:
+        type: string
+      merk_type:
+        type: string
+      nama_barang:
+        type: string
+      nilai_perolehan:
+        type: string
+      pengguna_barang:
+        type: string
+      tahun_perolehan:
+        type: string
+    type: object
   organisasi.OrganisasiModel:
     properties:
       aktif:
@@ -253,6 +270,50 @@ paths:
           schema:
             items:
               $ref: '#/definitions/barang.ResponseGetGetAlatAngkut'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: master data
+      tags:
+      - barang
+  /barang/data/get-non-alat-angkut:
+    get:
+      consumes:
+      - application/json
+      description: get master non transportration
+      parameters:
+      - description: take
+        in: query
+        name: take
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/barang.ResponseNonALatAngkut'
             type: array
         "400":
           description: Bad Request

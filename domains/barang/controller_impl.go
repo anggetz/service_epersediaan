@@ -134,6 +134,57 @@ func (c *ControllerImpl) GetAlatAngkut(ctx *gin.Context) {
 }
 
 // Token   godoc
+// @Summary      master data
+// @Description  get master non transportration
+// @Tags         barang
+// @Accept       json
+// @Produce      json
+// @Param        take	query	int			false	"take"
+// @Param        page	query	int			false	"page"
+// @Param        search	query	string		false	"search"
+// @Success      200  {array}  	ResponseNonALatAngkut
+// @Failure      400  {object}  util.HTTPError
+// @Failure      404  {object}  util.HTTPError
+// @Failure      500  {object}  util.HTTPError
+// @Security 	 ApiKeyAuth
+// @Router       /barang/data/get-non-alat-angkut [get]
+func (c *ControllerImpl) GetNonAlatAngkut(ctx *gin.Context) {
+	params := ParamPagination{}
+
+	params.take, _ = strconv.Atoi(ctx.Request.URL.Query().Get("take"))
+	params.page, _ = strconv.Atoi(ctx.Request.URL.Query().Get("page"))
+	params.search = ctx.Query("search")
+
+	if params.take == 0 {
+		params.take = 15
+	}
+
+	if params.page == 0 {
+		params.page = 1
+	}
+
+	var offset int = 0
+	if params.page == 1 {
+		offset = 0
+	} else {
+		offset = (params.page - 1) * params.take
+	}
+
+	databarang, totalData, err := NewUseCase().GetApelMasterNonKendaraan(params.take, offset, params.search)
+	if err != nil {
+		util.NewError(ctx, http.StatusBadRequest, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"data":       databarang,
+		"data_total": totalData,
+		"total_page": int(math.Ceil(float64(totalData) / float64(params.take))),
+		"page":       params.page,
+	})
+}
+
+// Token   godoc
 // @Summary      check registered transportration item
 // @Description  check registered number plate
 // @Tags         barang

@@ -88,6 +88,57 @@ func (u *UseCaseImpl) GetApelMaster(page int, offset int, search string) ([]*Mod
 
 }
 
+func (u *UseCaseImpl) GetApelMasterNonKendaraan(page int, offset int, search string) ([]*ResponseNonALatAngkut, int, error) {
+	funcClause := func(isCountClause bool) func(*orm.Query) {
+
+		return func(q *orm.Query) {
+			q.ColumnExpr(
+				`
+				inventaris.kode_barang,
+				m_barang.nama_rek_aset as nama_barang,
+				m_merk_barang.nama as merk_type,
+				inventaris.tahun_perolehan,
+				inventaris.harga_satuan as nilai_perolehan,
+				org1.nama as pengguna_barang,
+				org2.nama as kuasa_pengguna_barang`,
+			).
+				Join(" INNER JOIN inventaris ON inventaris.id = mesin.pidinventaris").
+				Join(" INNER JOIN m_barang ON m_barang.id = inventaris.pidbarang").
+				Join(" LEFT JOIN m_merk_barang ON m_merk_barang.id = mesin.merk").
+				Join(" INNER JOIN m_organisasi as org1 ON org1.id = inventaris.pidopd").
+				Join(" INNER JOIN m_organisasi as org2 ON org2.id = inventaris.pidopd_cabang")
+
+			q.Where("m_barang.kode_akun = ?", "1")
+			q.Where("m_barang.kode_kelompok = ?", "3")
+			q.Where("m_barang.kode_jenis = ?", "2")
+			q.Where("m_barang.kode_objek != ?", "02")
+
+			if search != "" && !isCountClause {
+				q.Where("m_barang.nama_rek_aset LIKE '?'", search)
+			}
+
+			value, _ := q.AppendQuery(orm.NewFormatter(), nil)
+			fmt.Println(string(value))
+
+		}
+	}
+
+	data, err := domains.NewGenericRepository[*ResponseNonALatAngkut]().All(page, offset, funcClause(false))
+
+	if err != nil {
+		return nil, 0, fmt.Errorf("could not get data barang :%v", err.Error())
+	}
+
+	totalData, err := domains.NewGenericRepository[*ResponseNonALatAngkut]().Count(page, offset, funcClause(true))
+
+	if err != nil {
+		return nil, 0, fmt.Errorf("could not total data barang :%v", err.Error())
+	}
+
+	return data, totalData, nil
+
+}
+
 func (u *UseCaseImpl) CheckPlatNumberChassisNumberAndMachineNumber(platNumber string, chassisNumber string, machineNumber string, opdid int, opdid_cabang int, uptid int) (*MesinModel, error) {
 	if platNumber == "" && chassisNumber == "" && machineNumber == "" {
 		return nil, fmt.Errorf("nopol, nomor rangka, atau nomor mesin salah satu harus terisi!")
