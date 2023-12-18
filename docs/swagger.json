@@ -1,0 +1,776 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server celler server.",
+        "title": "E-Persediaan API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8089",
+    "basePath": "/v1/public-api",
+    "paths": {
+        "/barang/data/check-number-plate": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "check registered number plate",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "barang"
+                ],
+                "summary": "check registered transportration item",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "number_plate",
+                        "name": "number_plate",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "chassis_number",
+                        "name": "chassis_number",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "machine_number",
+                        "name": "machine_number",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "pidopd",
+                        "name": "pidopd",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "sub_pidopd",
+                        "name": "sub_pidopd",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "pidupt",
+                        "name": "pidupt",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/barang.MesinModel"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/barang/data/get-alat-angkut": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get master transportration",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "barang"
+                ],
+                "summary": "master data",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "take",
+                        "name": "take",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "search",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/barang.ResponseGetGetAlatAngkut"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/barang/data/get-non-alat-angkut": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get master non transportration",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "barang"
+                ],
+                "summary": "master data",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "take",
+                        "name": "take",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "search",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "opd_id",
+                        "name": "opd_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/barang.ResponseNonALatAngkut"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/barang/data/registered/get-transportation": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get registered data tranportation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "barang"
+                ],
+                "summary": "registered items",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "take",
+                        "name": "take",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "search",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "opd_id",
+                        "name": "opd_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/barang.ResponseGetRegisteredDataTransportation"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisasi/data/get": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get m_organisasi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "organisasi"
+                ],
+                "summary": "Organisasi",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "take",
+                        "name": "take",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "search",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "2,1,0,-1,-2",
+                        "name": "level",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/organisasi.OrganisasiModel"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/auth/token": {
+            "post": {
+                "description": "get a token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Token",
+                "parameters": [
+                    {
+                        "description": "Authorization Credential",
+                        "name": "message",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.RequestToken"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.ResponseToken"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/data/iam": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get a user logged in info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "IAM",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.ResponseIAM"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.HTTPError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "barang.InventarisModel": {
+            "type": "object",
+            "properties": {
+                "barang": {
+                    "$ref": "#/definitions/barang.Model"
+                },
+                "harga_satuan": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "kode_barang": {
+                    "type": "string"
+                },
+                "kuasa_pengguna_barang": {
+                    "$ref": "#/definitions/barang.Organisasi"
+                },
+                "kuasa_pengguna_barang_id": {
+                    "type": "integer"
+                },
+                "pengguna_barang": {
+                    "$ref": "#/definitions/barang.Organisasi"
+                },
+                "pengguna_barang_id": {
+                    "type": "integer"
+                },
+                "pidbarang": {
+                    "type": "integer"
+                },
+                "sub_kuasa_pengguna_barang": {
+                    "$ref": "#/definitions/barang.Organisasi"
+                },
+                "sub_kuasa_pengguna_barang_id": {
+                    "type": "integer"
+                },
+                "tahun_perolehan": {
+                    "type": "integer"
+                },
+                "tgl_perolehan": {
+                    "type": "string"
+                }
+            }
+        },
+        "barang.MesinModel": {
+            "type": "object",
+            "properties": {
+                "bahan": {
+                    "type": "string"
+                },
+                "bpkb": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "inventaris": {
+                    "$ref": "#/definitions/barang.InventarisModel"
+                },
+                "keterangan": {
+                    "type": "string"
+                },
+                "nomesin": {
+                    "type": "string"
+                },
+                "nopol": {
+                    "type": "string"
+                },
+                "norangka": {
+                    "type": "string"
+                },
+                "pidinventaris": {
+                    "type": "integer"
+                },
+                "ukuran": {
+                    "type": "string"
+                }
+            }
+        },
+        "barang.Model": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "kode_akun": {
+                    "type": "string"
+                },
+                "kode_jenis": {
+                    "type": "string"
+                },
+                "kode_kelompok": {
+                    "type": "string"
+                },
+                "kode_objek": {
+                    "type": "string"
+                },
+                "kode_rincian_objek": {
+                    "type": "string"
+                },
+                "kode_sub_rincian_object": {
+                    "type": "string"
+                },
+                "kode_sub_sub_rincian_object": {
+                    "type": "string"
+                },
+                "nama_rek_aset": {
+                    "type": "string"
+                },
+                "umur_ekonomis": {
+                    "type": "integer"
+                }
+            }
+        },
+        "barang.Organisasi": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "kode": {
+                    "type": "string"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "nama": {
+                    "type": "string"
+                }
+            }
+        },
+        "barang.ResponseGetGetAlatAngkut": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/barang.Model"
+                },
+                "data_total": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "total_page": {
+                    "type": "integer"
+                }
+            }
+        },
+        "barang.ResponseGetRegisteredDataTransportation": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/barang.MesinModel"
+                },
+                "data_total": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "total_page": {
+                    "type": "integer"
+                }
+            }
+        },
+        "barang.ResponseNonALatAngkut": {
+            "type": "object",
+            "properties": {
+                "kode_barang": {
+                    "type": "string"
+                },
+                "kuasa_pengguna_barang": {
+                    "type": "string"
+                },
+                "merk_type": {
+                    "type": "string"
+                },
+                "nama_barang": {
+                    "type": "string"
+                },
+                "nilai_perolehan": {
+                    "type": "string"
+                },
+                "pengguna_barang": {
+                    "type": "string"
+                },
+                "tahun_perolehan": {
+                    "type": "string"
+                }
+            }
+        },
+        "organisasi.OrganisasiModel": {
+            "type": "object",
+            "properties": {
+                "aktif": {
+                    "type": "integer"
+                },
+                "alamat": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "kode": {
+                    "type": "string"
+                },
+                "level": {
+                    "type": "string"
+                },
+                "nama": {
+                    "type": "string"
+                },
+                "organisasi": {
+                    "$ref": "#/definitions/organisasi.OrganisasiModel"
+                },
+                "pid": {
+                    "type": "integer"
+                },
+                "setting": {
+                    "type": "integer"
+                }
+            }
+        },
+        "user.RequestToken": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "example": "bdg230683"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "NOVIRAHYANTI"
+                }
+            }
+        },
+        "user.ResponseIAM": {
+            "type": "object",
+            "properties": {
+                "organisasi": {
+                    "$ref": "#/definitions/organisasi.OrganisasiModel"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.ResponseToken": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "util.HTTPError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 400
+                },
+                "message": {
+                    "type": "string",
+                    "example": "status bad request"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "externalDocs": {
+        "description": "OpenAPI",
+        "url": "https://swagger.io/resources/open-api/"
+    }
+}

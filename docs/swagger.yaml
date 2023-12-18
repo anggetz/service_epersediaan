@@ -1,0 +1,504 @@
+basePath: /v1/public-api
+definitions:
+  barang.InventarisModel:
+    properties:
+      barang:
+        $ref: '#/definitions/barang.Model'
+      harga_satuan:
+        type: number
+      id:
+        type: integer
+      kode_barang:
+        type: string
+      kuasa_pengguna_barang:
+        $ref: '#/definitions/barang.Organisasi'
+      kuasa_pengguna_barang_id:
+        type: integer
+      pengguna_barang:
+        $ref: '#/definitions/barang.Organisasi'
+      pengguna_barang_id:
+        type: integer
+      pidbarang:
+        type: integer
+      sub_kuasa_pengguna_barang:
+        $ref: '#/definitions/barang.Organisasi'
+      sub_kuasa_pengguna_barang_id:
+        type: integer
+      tahun_perolehan:
+        type: integer
+      tgl_perolehan:
+        type: string
+    type: object
+  barang.MesinModel:
+    properties:
+      bahan:
+        type: string
+      bpkb:
+        type: string
+      id:
+        type: integer
+      inventaris:
+        $ref: '#/definitions/barang.InventarisModel'
+      keterangan:
+        type: string
+      nomesin:
+        type: string
+      nopol:
+        type: string
+      norangka:
+        type: string
+      pidinventaris:
+        type: integer
+      ukuran:
+        type: string
+    type: object
+  barang.Model:
+    properties:
+      id:
+        type: integer
+      kode_akun:
+        type: string
+      kode_jenis:
+        type: string
+      kode_kelompok:
+        type: string
+      kode_objek:
+        type: string
+      kode_rincian_objek:
+        type: string
+      kode_sub_rincian_object:
+        type: string
+      kode_sub_sub_rincian_object:
+        type: string
+      nama_rek_aset:
+        type: string
+      umur_ekonomis:
+        type: integer
+    type: object
+  barang.Organisasi:
+    properties:
+      id:
+        type: integer
+      kode:
+        type: string
+      level:
+        type: integer
+      nama:
+        type: string
+    type: object
+  barang.ResponseGetGetAlatAngkut:
+    properties:
+      data:
+        $ref: '#/definitions/barang.Model'
+      data_total:
+        type: integer
+      page:
+        type: integer
+      total_page:
+        type: integer
+    type: object
+  barang.ResponseGetRegisteredDataTransportation:
+    properties:
+      data:
+        $ref: '#/definitions/barang.MesinModel'
+      data_total:
+        type: integer
+      page:
+        type: integer
+      total_page:
+        type: integer
+    type: object
+  barang.ResponseNonALatAngkut:
+    properties:
+      kode_barang:
+        type: string
+      kuasa_pengguna_barang:
+        type: string
+      merk_type:
+        type: string
+      nama_barang:
+        type: string
+      nilai_perolehan:
+        type: string
+      pengguna_barang:
+        type: string
+      tahun_perolehan:
+        type: string
+    type: object
+  organisasi.OrganisasiModel:
+    properties:
+      aktif:
+        type: integer
+      alamat:
+        type: string
+      id:
+        type: integer
+      kode:
+        type: string
+      level:
+        type: string
+      nama:
+        type: string
+      organisasi:
+        $ref: '#/definitions/organisasi.OrganisasiModel'
+      pid:
+        type: integer
+      setting:
+        type: integer
+    type: object
+  user.RequestToken:
+    properties:
+      password:
+        example: bdg230683
+        type: string
+      username:
+        example: NOVIRAHYANTI
+        type: string
+    type: object
+  user.ResponseIAM:
+    properties:
+      organisasi:
+        $ref: '#/definitions/organisasi.OrganisasiModel'
+      username:
+        type: string
+    type: object
+  user.ResponseToken:
+    properties:
+      token:
+        type: string
+    type: object
+  util.HTTPError:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:8089
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: E-Persediaan API
+  version: "1.0"
+paths:
+  /barang/data/check-number-plate:
+    get:
+      consumes:
+      - application/json
+      description: check registered number plate
+      parameters:
+      - description: number_plate
+        in: query
+        name: number_plate
+        type: string
+      - description: chassis_number
+        in: query
+        name: chassis_number
+        type: string
+      - description: machine_number
+        in: query
+        name: machine_number
+        type: string
+      - description: pidopd
+        in: query
+        name: pidopd
+        type: integer
+      - description: sub_pidopd
+        in: query
+        name: sub_pidopd
+        type: integer
+      - description: pidupt
+        in: query
+        name: pidupt
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/barang.MesinModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: check registered transportration item
+      tags:
+      - barang
+  /barang/data/get-alat-angkut:
+    get:
+      consumes:
+      - application/json
+      description: get master transportration
+      parameters:
+      - description: take
+        in: query
+        name: take
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/barang.ResponseGetGetAlatAngkut'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: master data
+      tags:
+      - barang
+  /barang/data/get-non-alat-angkut:
+    get:
+      consumes:
+      - application/json
+      description: get master non transportration
+      parameters:
+      - description: take
+        in: query
+        name: take
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: opd_id
+        in: query
+        name: opd_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/barang.ResponseNonALatAngkut'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: master data
+      tags:
+      - barang
+  /barang/data/registered/get-transportation:
+    get:
+      consumes:
+      - application/json
+      description: get registered data tranportation
+      parameters:
+      - description: take
+        in: query
+        name: take
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: opd_id
+        in: query
+        name: opd_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/barang.ResponseGetRegisteredDataTransportation'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: registered items
+      tags:
+      - barang
+  /organisasi/data/get:
+    get:
+      consumes:
+      - application/json
+      description: get m_organisasi
+      parameters:
+      - description: take
+        in: query
+        name: take
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: 2,1,0,-1,-2
+        in: query
+        name: level
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/organisasi.OrganisasiModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: Organisasi
+      tags:
+      - organisasi
+  /user/auth/token:
+    post:
+      consumes:
+      - application/json
+      description: get a token
+      parameters:
+      - description: Authorization Credential
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/user.RequestToken'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.ResponseToken'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      summary: Token
+      tags:
+      - auth
+  /user/data/iam:
+    post:
+      consumes:
+      - application/json
+      description: get a user logged in info
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.ResponseIAM'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: IAM
+      tags:
+      - auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
