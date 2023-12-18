@@ -793,7 +793,7 @@ var SwaggerInfo = &swag.Spec{
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
 	RightDelim:       "}}",
-}
+} 
 
 func init() {
 	swag.Register(SwaggerInfo.InstanceName(), SwaggerInfo)
