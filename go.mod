@@ -2,7 +2,7 @@ module pvg/simada/service-golang
 
 go 1.18
 
-require (
+require ( 
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-pg/pg/v10 v10.11.0
 	github.com/golang-jwt/jwt/v5 v5.0.0-rc.1
