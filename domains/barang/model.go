@@ -81,6 +81,13 @@ type ParamPagination struct {
 	search string `example:"smk"`
 }
 
+type ParamPaginationNonAlatAngkut struct {
+	take   int    `example:"10"`
+	page   int    `example:"1"`
+	search string `example:"smk"`
+	opd_id int    `example:"opd_id"`
+}
+
 type ParamPaginationDataTransportration struct {
 	take   int    `example:"10"`
 	page   int    `example:"1"`

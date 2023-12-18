@@ -142,6 +142,7 @@ func (c *ControllerImpl) GetAlatAngkut(ctx *gin.Context) {
 // @Param        take	query	int			false	"take"
 // @Param        page	query	int			false	"page"
 // @Param        search	query	string		false	"search"
+// @Param		 opd_id query 	int			false	"opd_id"
 // @Success      200  {array}  	ResponseNonALatAngkut
 // @Failure      400  {object}  util.HTTPError
 // @Failure      404  {object}  util.HTTPError
@@ -149,10 +150,11 @@ func (c *ControllerImpl) GetAlatAngkut(ctx *gin.Context) {
 // @Security 	 ApiKeyAuth
 // @Router       /barang/data/get-non-alat-angkut [get]
 func (c *ControllerImpl) GetNonAlatAngkut(ctx *gin.Context) {
-	params := ParamPagination{}
+	params := ParamPaginationNonAlatAngkut{}
 
 	params.take, _ = strconv.Atoi(ctx.Request.URL.Query().Get("take"))
 	params.page, _ = strconv.Atoi(ctx.Request.URL.Query().Get("page"))
+	params.opd_id, _ = strconv.Atoi(ctx.Request.URL.Query().Get("opd_id"))
 	params.search = ctx.Query("search")
 
 	if params.take == 0 {
@@ -170,7 +172,7 @@ func (c *ControllerImpl) GetNonAlatAngkut(ctx *gin.Context) {
 		offset = (params.page - 1) * params.take
 	}
 
-	databarang, totalData, err := NewUseCase().GetApelMasterNonKendaraan(params.take, offset, params.search)
+	databarang, totalData, err := NewUseCase().GetApelMasterNonKendaraan(params.take, offset, params.opd_id, params.search)
 	if err != nil {
 		util.NewError(ctx, http.StatusBadRequest, err)
 		return

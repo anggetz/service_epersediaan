@@ -207,6 +207,12 @@
                         "description": "search",
                         "name": "search",
                         "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "opd_id",
+                        "name": "opd_id",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -762,5 +768,9 @@
             "name": "Authorization",
             "in": "header"
         }
+    },
+    "externalDocs": {
+        "description": "OpenAPI",
+        "url": "https://swagger.io/resources/open-api/"
     }
 }

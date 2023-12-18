@@ -88,7 +88,7 @@ func (u *UseCaseImpl) GetApelMaster(page int, offset int, search string) ([]*Mod
 
 }
 
-func (u *UseCaseImpl) GetApelMasterNonKendaraan(page int, offset int, search string) ([]*ResponseNonALatAngkut, int, error) {
+func (u *UseCaseImpl) GetApelMasterNonKendaraan(page int, offset int, opd_id int, search string) ([]*ResponseNonALatAngkut, int, error) {
 	funcClause := func(isCountClause bool) func(*orm.Query) {
 
 		return func(q *orm.Query) {
@@ -115,6 +115,10 @@ func (u *UseCaseImpl) GetApelMasterNonKendaraan(page int, offset int, search str
 
 			if search != "" && !isCountClause {
 				q.Where("m_barang.nama_rek_aset LIKE '?'", search)
+			}
+
+			if opd_id != 0 {
+				q.Where("org1.id = ?", opd_id)
 			}
 
 			value, _ := q.AppendQuery(orm.NewFormatter(), nil)
