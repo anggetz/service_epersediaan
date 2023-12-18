@@ -46,7 +46,7 @@ func AuthJWTMiddleware() gin.HandlerFunc {
 				return
 			}
 
-			if claims["expiry_date"].(float64) < float64(time.Now().Unix()) {
+			if claims["expiry_date"].(float64) < float64(time.Now().Unix()) && claims["username"] == "USERAPI" {
 				util.NewError(c, http.StatusUnauthorized, fmt.Errorf("Token expired"))
 				c.Abort()
 				return
